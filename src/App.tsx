@@ -405,6 +405,22 @@ function App() {
     maxStrokeCount,
   );
 
+  const renderDetailPanel = (className: string) => (
+    <section className={className} aria-label={copy.detailAria}>
+      <p className="section-label">{copy.currentGroup}</p>
+      <h2>
+        {regions.map((region) => selectedGroup.variants[region]).join(" / ")}
+      </h2>
+      <p className="meaning-line">{selectedGroupCopy.meaning}</p>
+      <p className="note-line">{selectedGroupCopy.note}</p>
+      <div className="focus-list" aria-label={copy.focusListAria}>
+        {selectedGroupCopy.focus.map((item) => (
+          <span key={item}>{item}</span>
+        ))}
+      </div>
+    </section>
+  );
+
   return (
     <div className="app-shell">
       <aside className="sidebar" aria-label={copy.sidebarAria}>
@@ -466,21 +482,7 @@ function App() {
           })}
         </nav>
 
-        <section className="detail-panel" aria-label={copy.detailAria}>
-          <p className="section-label">{copy.currentGroup}</p>
-          <h2>
-            {regions
-              .map((region) => selectedGroup.variants[region])
-              .join(" / ")}
-          </h2>
-          <p className="meaning-line">{selectedGroupCopy.meaning}</p>
-          <p className="note-line">{selectedGroupCopy.note}</p>
-          <div className="focus-list" aria-label={copy.focusListAria}>
-            {selectedGroupCopy.focus.map((item) => (
-              <span key={item}>{item}</span>
-            ))}
-          </div>
-        </section>
+        {renderDetailPanel("detail-panel sidebar-detail-panel")}
       </aside>
 
       <main className="workspace">
@@ -616,6 +618,8 @@ function App() {
             records={selectedRecords}
           />
         ) : null}
+
+        {renderDetailPanel("detail-panel workspace-detail-panel")}
 
         <section className="source-section">
           <h2>
